@@ -34,11 +34,19 @@ def collect_login_info():
         nargs='?',
         default='ptc',
         help='Authentication method, can be either ptc (default) or google')
+    parser.add_argument(
+        '--password',
+        nargs='?',
+        default=None,
+        help='Unsafe way to provide password'
+    )
     args = parser.parse_args()
 
-    prompt = 'Enter the password for the {0} account {1}: '.format(
-        args.auth, args.username)
-    password = getpass(prompt)
+    password = args.password
+    if password == None:
+        prompt = 'Enter the password for the {0} account {1}: '.format(
+            args.auth, args.username)
+        password = getpass(prompt)
 
     return args.auth, args.username, password
 
