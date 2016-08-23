@@ -13,8 +13,8 @@ from getpass import getpass
 import json
 
 # redirect log to stdout and make logger available for script
-logging.basicConfig(stream=sys.stdout, level=20)
-log = logging.getLogger('AutoIV')
+logging.basicConfig(stream=sys.stdout, level=logging.WARNING)
+log = logging.getLogger('pgo_auto_iv')
 
 # initialize PGOAPI
 api = PGoApi()
@@ -119,14 +119,14 @@ try:
         # nickname pokemon
         api.nickname_pokemon(pokemon_id=id, nickname=nick)
 
-        log.warning("(%(i)s/%(amount)s) Renamed %(pkmn_name)s with %(cp)s CP to %(nick)s" % locals())
+        print("(%(i)s/%(amount)s) Renamed %(pkmn_name)s with %(cp)s CP to %(nick)s" % locals())
         # add pkmn to list of rated pkmn
         rated_pkmn.append(id)
         # wait a little so we do not spam the API
         sleep_time = randint(3, 10)
-        log.warning("Waiting for {0} seconds".format(sleep_time))
+        print("Waiting for {0} seconds".format(sleep_time))
         sleep(sleep_time)
 finally:
     # make sure we store the new list of rated pokemon
     store_rated_pkmn(rated_pkmn)
-log.warning("Finished renaming Pokemon according to IVs.")
+print("Finished renaming Pokemon according to IVs.")
