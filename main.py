@@ -10,6 +10,7 @@ import argparse
 import pickle
 import os
 from getpass import getpass
+import json
 
 # redirect log to stdout and make logger available for script
 logging.basicConfig(stream=sys.stdout, level=logging.INFO)
@@ -17,6 +18,9 @@ log = logging.getLogger('AutoIV')
 
 # initialize PGOAPI
 api = PGoApi()
+pokemon_data = {}
+with open('pokemon.json') as json_data:
+    pokemon_data = json.load(json_data)
 
 # collect login info via cmd-line arguments and user input
 def collect_login_info():
@@ -99,13 +103,15 @@ try:
         attack = pkmn.get('individual_attack', 0)
         defense = pkmn.get('individual_defense', 0)
         stamina = pkmn.get('individual_stamina', 0)
+        cp = pkmn.get('cp')
+        pkmn_name = pokemon_data[pkmn['pokemon_id'] - 1].get('Name', '???')
         nick = "{0}-{1}-{2}".format(attack, defense, stamina)
         id = pkmn['id']
         i = i + 1
         # nickname pokemon
         api.nickname_pokemon(pokemon_id=id, nickname=nick)
 
-        log.info("(%(i)s/%(amount)s) Renamed %(id)s to %(nick)s" % locals())
+        log.info("(%(i)s/%(amount)s) Renamed %(pkmn_name) with %(cp) to %(nick)s" % locals())
         # add pkmn to list of rated pkmn
         rated_pkmn.append(id)
         # wait a little so we do not spam the API
