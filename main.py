@@ -103,7 +103,7 @@ items = extract_items(response)
 rated_pkmn = load_rated_pkmn()
 pokemon = [pkmn for pkmn in remove_rated(filter_for_pokemon(items), rated_pkmn)]
 amount = len(pokemon)
-log.warning("Looping through {0} pokemon..".format(amount))
+print("Looping through {0} pokemon..".format(amount))
 i = 0
 try:
     for pkmn in pokemon:
