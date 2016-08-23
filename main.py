@@ -13,7 +13,7 @@ from getpass import getpass
 import json
 
 # redirect log to stdout and make logger available for script
-logging.basicConfig(stream=sys.stdout, level=logging.INFO)
+logging.basicConfig(stream=sys.stdout, level=20)
 log = logging.getLogger('AutoIV')
 
 # initialize PGOAPI
@@ -103,7 +103,7 @@ items = extract_items(response)
 rated_pkmn = load_rated_pkmn()
 pokemon = [pkmn for pkmn in remove_rated(filter_for_pokemon(items), rated_pkmn)]
 amount = len(pokemon)
-log.info("Looping through {0} pokemon..".format(amount))
+log.warning("Looping through {0} pokemon..".format(amount))
 i = 0
 try:
     for pkmn in pokemon:
@@ -119,14 +119,14 @@ try:
         # nickname pokemon
         api.nickname_pokemon(pokemon_id=id, nickname=nick)
 
-        log.info("(%(i)s/%(amount)s) Renamed %(pkmn_name) with %(cp) to %(nick)s" % locals())
+        log.warning("(%(i)s/%(amount)s) Renamed %(pkmn_name)s with %(cp)s CP to %(nick)s" % locals())
         # add pkmn to list of rated pkmn
         rated_pkmn.append(id)
         # wait a little so we do not spam the API
         sleep_time = randint(3, 10)
-        log.info("Waiting for {0} seconds".format(sleep_time))
+        log.warning("Waiting for {0} seconds".format(sleep_time))
         sleep(sleep_time)
 finally:
     # make sure we store the new list of rated pokemon
     store_rated_pkmn(rated_pkmn)
-log.info("Finished renaming Pokemon according to IVs.")
+log.warning("Finished renaming Pokemon according to IVs.")
