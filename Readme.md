@@ -2,6 +2,11 @@
 
 This little script renames all Pokemon in possession of a player according to their IVs. E.g., `Charmander` with 13 attack, 12 defense and 15 stamina would be nicknamed `13-12-15`.
 
+## Requirements
+
+- Python
+- [PGoApi](https://github.com/tejado/pgoapi)
+
 ## Usage
 
 Execute the `main.py` file passing your username. It will ask for your password to be able to authenticate against the Niantic API.
